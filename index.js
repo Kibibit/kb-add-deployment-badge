@@ -19,15 +19,13 @@ const badgeTemplate = _.template(
     const position = core.getInput('position');
     const octokit = github.getOctokit(token);
     const { context } = github;
-
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    // console.log(`The event payload: ${payload}`);
     const DEPLOYMENT_URL = github.context.payload.deployment_status.deployment_url;
     const owner = context.repo.owner;
     const repo = context.repo.repo;
-    console.log(DEPLOYMENT_URL);
+    console.log(`processing deployment: ${ DEPLOYMENT_URL }`);
     const deploymentData = await getDeploymentData();
-    console.log(deploymentData.prRefs);
+
+    // create the 3 badges data array
     const badgesData = [];
     ['badge3', 'badge2', 'badge'].forEach((name) => {
       const badge = getBadgeDefinition(name);
@@ -35,30 +33,29 @@ const badgeTemplate = _.template(
         badgesData.push(badge);
       }
     });
+
+    // for each pull request reference containing the commit that got deployed,
+    // change or add the badges based on the configuration
     for (const prRef of deploymentData.prRefs) {
       if (prRef) {
         const prId = +prRef.replace('refs/pull/', '').replace('/head', '');
-        console.log({
-          owner,
-          repo,
-          pull_number: prId
-        });
+        console.log(`Found Pull-Request pointing to the deployment: ${ owner }/${ repo }/${ prId }`);
         const pr = await octokit.pulls.get({
           owner,
           repo,
           pull_number: prId
         });
-        console.log('GOT THIS PR BODY FOR ' + prId, pr.data.body);
         let body = pr.data.body;
 
         badgesData.forEach((badgeData, index) => {
           const compiledBadge = badgeTemplate(badgeData);
           console.log(badgeData);
           if (pr.data.body.includes(badgeData.badgeId)) {
-            console.log('found the badge id!');
+            console.log('Badge exists in PR body. Replacing with newer version');
             // replace badge
             body = body.replace(badgeData.badgeCatchRegex, compiledBadge);
           } else {
+            console.log(`Badge Not found. Adding new one to body at ${ position }`);
             const seperator = shouldAddSeperator ?
               `${position === 'top' ? '\n' : '\n\n'}-----${position !== 'top' ? '\n' : '\n\n'}` :
               '';
@@ -77,13 +74,6 @@ const badgeTemplate = _.template(
               body = newBody.reverse().join('');
             }
           }
-        });
-
-        console.log('calling update with', {
-          owner,
-          repo,
-          pull_number: prId,
-          body
         });
 
         await octokit.pulls.update({

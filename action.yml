@@ -13,7 +13,7 @@ inputs:
     default: top
     required: false
   separator:
-    description: should we add a seperator between badges and pr body content?
+    description: Should we add a seperator between badges and pr body content?
     default: 'true'
     required: false
   badge-left:
