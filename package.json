@@ -1,0 +1,33 @@
+{
+  "name": "@kibibit/kb-badger-action",
+  "version": "1.0.0",
+  "description": "When an Environment is deployed successfully, add a badge to PR body with links to environment",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build index.js --license LICENSE",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kibibit/kb-badger.git"
+  },
+  "author": "thatkookooguy <neilkalman@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kibibit/kb-badger/issues"
+  },
+  "homepage": "https://github.com/Kibibit/kb-badger#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.7",
+    "@actions/github": "^4.0.0",
+    "lodash": "^4.17.21",
+    "url-join": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "@vercel/ncc": "^0.28.4"
+  }
+}
