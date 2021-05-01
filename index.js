@@ -60,7 +60,7 @@ const badgeTemplate = _.template(
             body = body.replace(badgeData.badgeCatchRegex, compiledBadge);
           } else {
             const seperator = shouldAddSeperator ?
-              `${position === 'top' ? '' : '\n'}-----${position === 'bottom' ? '' : '\n'}` :
+              `${position === 'top' ? '\n' : '\n\n'}-----${position !== 'top' ? '\n' : '\n\n'}` :
               '';
 
             const newBody = [
