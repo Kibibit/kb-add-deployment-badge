@@ -59,6 +59,7 @@ const badgeTemplate = _.template(
           } else {
             // add badge
             body = [
+              compiledBadge,
               index === 0 ? '\n\n' : ' ',
               `${ body }`
             ].join('');
