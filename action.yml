@@ -16,6 +16,9 @@ inputs:
     description: Should we add a seperator between badges and pr body content?
     default: 'true'
     required: false
+  style:
+    description: Badge style. Can be one of `plastic` | `flat` | `flat-square` | `for-the-badge` | `social`
+    required: false
   badge-left:
     description: Left-Hand side text of badge
     required: false

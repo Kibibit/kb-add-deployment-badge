@@ -29,6 +29,7 @@ When an Environment is deployed successfully, add a badge to PR body with links 
 | github-token | The GitHub token used to create an authenticated client | `${{ github.token }}` | ✔️ |
 | position | Where should the tags be positioned? If tag definitions are found, they will just be replaced. This allows you to position them anywhere if you add them to your PR template | `top` | ❌ |
 | separator | Should we add a seperator between badges and pr body content? | `true` | ❌ |
+| style | Badge style. Can be one of `plastic` \| `flat` \| `flat-square` \| `for-the-badge` \| `social` | `flat` | ❌ |
 
 ### Badge Settings
 
@@ -38,7 +39,7 @@ When an Environment is deployed successfully, add a badge to PR body with links 
 | badge-right | Right-Hand side text of badge | `application` | ❌ |
 | badge-color | Right-Hand side shield color | `informational` | ❌ |
 | badge-logo | Badge Logo | `undefined` | ❌ |
-| badge-path | Path to navigate to in deployment | `undefined` | ❌ |
+| badge-path | Path to navigate to in deployment. If not set, the deployment url will be used as-is | `undefined` | ❌ |
 
 These inputs are repeated 3 tims to support 3 simultanous badges.
 

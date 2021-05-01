@@ -4,10 +4,12 @@ const github = require('@actions/github');
 const _ = require('lodash');
 const urljoin = require('url-join');
 
+const style = core.getInput('style');
 const badgeTemplate = _.template(
   [
     '[![kb-badger-action--<%= name %>]',
-    '(https://img.shields.io/badge/<%= left %>-<%= right %>-<%= color %>?logo=<%= logo %>)]',
+    '(https://img.shields.io/badge/<%= left %>-<%= right %>-<%= color %>',
+    `?logo=<%= logo %>${ style ? '&style=' + style : '' })]`,
     '(<%= url %>)'
   ].join('')
 );
@@ -58,7 +60,7 @@ const badgeTemplate = _.template(
             console.log(`Badge Not found. Adding new one to body at ${ position }`);
             const seperator = shouldAddSeperator ?
               `${position === 'top' ? '\n' : '\n\n'}-----${position !== 'top' ? '\n' : '\n\n'}` :
-              '';
+              '\n\n';
 
             const newBody = [
               compiledBadge,
@@ -113,8 +115,8 @@ const badgeTemplate = _.template(
     }
 
     function getBadgeDefinition(name) {
-      const left = core.getInput(`${name}-left`);
-      const right = core.getInput(`${name}-right`);
+      const left = encodeURIComponent(core.getInput(`${name}-left`).replace('-', '--').replace('_', '__'));
+      const right = encodeURIComponent(core.getInput(`${name}-right`).replace('-', '--').replace('_', '__'));
       const color = core.getInput(`${name}-color`);
       const urlPath = core.getInput(`${name}-path`);
       const logo = core.getInput(`${name}-logo`);
