@@ -1,6 +1,10 @@
 name: 'Kb Pull Request Deployment Badges'
 description: 'Add deployment links to PR body as badges'
 inputs:
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
   badge-left:
     description: 'Left-Hand side text of badge'
     required: false

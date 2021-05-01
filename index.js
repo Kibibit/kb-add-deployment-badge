@@ -14,8 +14,8 @@ const badgeTemplate = _.template(
 
 (async () => {
   try {
-    const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
-    const octokit = github.getOctokit(GITHUB_TOKEN);
+    const token = core.getInput('github-token', {required: true});
+    const octokit = github.getOctokit(token);
     const { context } = github;
     const badgesData = [];
     ['badge3', 'badge2', 'badge' ].forEach((name) => {
