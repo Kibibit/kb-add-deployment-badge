@@ -6,7 +6,7 @@ const urljoin = require('url-join');
 
 const badgeTemplate = _.template(
   [
-    '[![kb-dep-badge--<%= name %>]',
+    '[![kb-badger-action--<%= name %>]',
     '(https://img.shields.io/badge/<%= left %>-<%= right %>-<%= color %>?logo=<%= logo %>)]',
     '(<%= url %>)'
   ].join('')
@@ -14,7 +14,9 @@ const badgeTemplate = _.template(
 
 (async () => {
   try {
-    const token = core.getInput('github-token', {required: true});
+    const token = core.getInput('github-token', { required: true });
+    const shouldAddSeperator = core.getInput('separator').toLowerCase() === 'true';
+    const position = core.getInput('position');
     const octokit = github.getOctokit(token);
     const { context } = github;
 
@@ -27,7 +29,7 @@ const badgeTemplate = _.template(
     const deploymentData = await getDeploymentData();
     console.log(deploymentData.prRefs);
     const badgesData = [];
-    ['badge3', 'badge2', 'badge' ].forEach((name) => {
+    ['badge3', 'badge2', 'badge'].forEach((name) => {
       const badge = getBadgeDefinition(name);
       if (badge) {
         badgesData.push(badge);
@@ -57,12 +59,23 @@ const badgeTemplate = _.template(
             // replace badge
             body = body.replace(badgeData.badgeCatchRegex, compiledBadge);
           } else {
-            // add badge
-            body = [
+            const seperator = shouldAddSeperator ?
+              `${position === 'top' ? '' : '\n'}-----${position === 'bottom' ? '' : '\n'}` :
+              '';
+
+            const newBody = [
               compiledBadge,
-              index === 0 ? '\n\n' : ' ',
-              `${ body }`
-            ].join('');
+              index === 0 ? seperator : ' ',
+              `${body}`
+            ];
+
+            if (position === 'top') {
+              // add badge
+              body = newBody.join('');
+            } else {
+              // add badge
+              body = newBody.reverse().join('');
+            }
           }
         });
 
@@ -110,18 +123,18 @@ const badgeTemplate = _.template(
     }
 
     function getBadgeDefinition(name) {
-      const left = core.getInput(`${ name }-left`);
-      const right = core.getInput(`${ name }-right`);
-      const color = core.getInput(`${ name }-color`);
-      const urlPath = core.getInput(`${ name }-path`);
-      const logo = core.getInput(`${ name }-logo`);
-      const badgeId = `kb-badger-action--${ name }`;
-      const badgeCatchRegex = new RegExp(`\\[!\\[${ badgeId }\\]\\(.*?\\)]\\(.*?\\)`);
-    
+      const left = core.getInput(`${name}-left`);
+      const right = core.getInput(`${name}-right`);
+      const color = core.getInput(`${name}-color`);
+      const urlPath = core.getInput(`${name}-path`);
+      const logo = core.getInput(`${name}-logo`);
+      const badgeId = `kb-badger-action--${name}`;
+      const badgeCatchRegex = new RegExp(`\\[!\\[${badgeId}\\]\\(.*?\\)]\\(.*?\\)`);
+
       if (!left) {
         return;
       }
-    
+
       return {
         name,
         left,

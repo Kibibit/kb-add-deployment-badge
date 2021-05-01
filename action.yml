@@ -5,6 +5,17 @@ inputs:
     description: The GitHub token used to create an authenticated client
     default: ${{ github.token }}
     required: false
+  position:
+    description: |
+      Where should the tags be positioned? If tag definitions are found, 
+      they will just be replaced. This allows you to position them anywhere
+      if you add them to your PR template
+    default: top
+    required: false
+  separator:
+    description: should we add a seperator between badges and pr body content?
+    default: 'true'
+    required: false
   badge-left:
     description: Left-Hand side text of badge
     required: false
