@@ -2,7 +2,7 @@
   "name": "@kibibit/kb-badger-action",
   "version": "1.0.0",
   "description": "When an Environment is deployed successfully, add a badge to PR body with links to environment",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "ncc build index.js --license LICENSE",
     "test": "echo \"Error: no test specified\" && exit 1"
