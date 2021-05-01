@@ -105,7 +105,7 @@ const badgeTemplate = _.template(
       const urlPath = core.getInput(`${ name }-path`);
       const logo = core.getInput(`${ name }-logo`);
       const badgeId = `kb-dep-badge--${ name }`;
-      const badgeCatchRegex = new RegExp(`\[!\[${ badgeId }\]\(.*?\)]\(.*?\)`);
+      const badgeCatchRegex = new RegExp(`\\[!\\[${ badgeId }\\]\\(.*?\\)]\\(.*?\\)`);
     
       if (!left) {
         return;
