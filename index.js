@@ -17,15 +17,7 @@ const badgeTemplate = _.template(
     const token = core.getInput('github-token', {required: true});
     const octokit = github.getOctokit(token);
     const { context } = github;
-    const badgesData = [];
-    ['badge3', 'badge2', 'badge' ].forEach((name) => {
-      const badge = getBadgeDefinition(name);
-      if (badge) {
-        badgesData.push(badge);
-      }
-    });
 
-    // const { DEPLOYMENT_URL } = process.env;
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`);
     const DEPLOYMENT_URL = github.context.payload.deployment_status.deployment_url;
@@ -34,6 +26,13 @@ const badgeTemplate = _.template(
     console.log(DEPLOYMENT_URL);
     const deploymentData = await getDeploymentData();
     console.log(deploymentData.prRefs);
+    const badgesData = [];
+    ['badge3', 'badge2', 'badge' ].forEach((name) => {
+      const badge = getBadgeDefinition(name);
+      if (badge) {
+        badgesData.push(badge);
+      }
+    });
     for (const prRef of deploymentData.prRefs) {
       if (prRef) {
         const prId = +prRef.ref.replace('refs/pull/', '').replace('/head', '');
@@ -116,7 +115,7 @@ const badgeTemplate = _.template(
         left,
         right,
         color,
-        urlPath,
+        url: urljoin(deploymentData.envUrl, urlPath),
         logo,
         badgeCatchRegex
       };
