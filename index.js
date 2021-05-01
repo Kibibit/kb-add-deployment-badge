@@ -115,7 +115,7 @@ const badgeTemplate = _.template(
       const color = core.getInput(`${ name }-color`);
       const urlPath = core.getInput(`${ name }-path`);
       const logo = core.getInput(`${ name }-logo`);
-      const badgeId = `kb-dep-badge--${ name }`;
+      const badgeId = `kb-badger-action--${ name }`;
       const badgeCatchRegex = new RegExp(`\\[!\\[${ badgeId }\\]\\(.*?\\)]\\(.*?\\)`);
     
       if (!left) {
@@ -129,7 +129,8 @@ const badgeTemplate = _.template(
         color,
         url: urljoin(deploymentData.envUrl, urlPath),
         logo,
-        badgeCatchRegex
+        badgeCatchRegex,
+        badgeId
       };
     }
 

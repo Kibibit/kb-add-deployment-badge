@@ -6,58 +6,58 @@ inputs:
     default: ${{ github.token }}
     required: false
   badge-left:
-    description: 'Left-Hand side text of badge'
+    description: Left-Hand side text of badge
     required: false
-    default: 'Demo'
+    default: demo
   badge-right:
-    description: 'Right-Hand side text of badge'
+    description: Right-Hand side text of badge
     required: false
-    default: 'Application'
+    default: application
   badge-color:
-    description: 'Right-Hand side css color'
+    description: Right-Hand side css color
     required: false
-    default: 'informational'
+    default: informational
   badge-logo:
-    description: 'Badge Logo'
+    description: Badge Logo
     required: false
     default: ''
   badge-path:
-    description: 'Path to navigate to in deployment'
+    description: Path to navigate to in deployment
     required: false
     default: ''
   badge2-left:
-    description: 'Left-Hand side text of badge'
+    description: Left-Hand side text of badge
     required: false
   badge2-right:
-    description: 'Right-Hand side text of badge'
+    description: Right-Hand side text of badge
     required: false
   badge2-color:
-    description: 'Right-Hand side css color'
+    description: Right-Hand side css color
     required: false
   badge2-logo:
-    description: 'Badge Logo'
+    description: Badge Logo
     required: false
   badge2-path:
-    description: 'Path to navigate to in deployment'
+    description: Path to navigate to in deployment
     required: false
   badge3-left:
-    description: 'Left-Hand side text of badge'
+    description: Left-Hand side text of badge
     required: false
   badge3-right:
-    description: 'Right-Hand side text of badge'
+    description: Right-Hand side text of badge
     required: false
   badge3-color:
-    description: 'Right-Hand side css color'
+    description: Right-Hand side css color
     required: false
   badge3-logo:
-    description: 'Badge Logo'
+    description: Badge Logo
     required: false
   badge3-path:
-    description: 'Path to navigate to in deployment'
+    description: Path to navigate to in deployment
     required: false
 outputs:
   time: # id of output
-    description: 'The time we greeted you'
+    description: The time the action finished
 runs:
   using: 'node12'
   main: 'index.js'
