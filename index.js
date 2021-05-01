@@ -19,7 +19,7 @@ const badgeTemplate = _.template(
     const { context } = github;
 
     const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
+    // console.log(`The event payload: ${payload}`);
     const DEPLOYMENT_URL = github.context.payload.deployment_status.deployment_url;
     const owner = context.repo.owner;
     const repo = context.repo.repo;
@@ -35,7 +35,7 @@ const badgeTemplate = _.template(
     });
     for (const prRef of deploymentData.prRefs) {
       if (prRef) {
-        const prId = +prRef.ref.replace('refs/pull/', '').replace('/head', '');
+        const prId = +prRef.replace('refs/pull/', '').replace('/head', '');
         console.log({
           owner,
           repo,
@@ -46,21 +46,30 @@ const badgeTemplate = _.template(
           repo,
           pull_number: prId
         });
-        console.log(pr);
+        console.log('GOT THIS PR BODY FOR ' + prId, pr.data.body);
         let body = pr.data.body;
 
         badgesData.forEach((badgeData, index) => {
           const compiledBadge = badgeTemplate(badgeData);
+          console.log(badgeData);
           if (pr.data.body.includes(badgeData.badgeId)) {
+            console.log('found the badge id!');
             // replace badge
             body = body.replace(badgeData.badgeCatchRegex, compiledBadge);
           } else {
             // add badge
             body = [
               index === 0 ? '\n\n' : ' ',
-              `${pr.data.body}`
+              `${ body }`
             ].join('');
           }
+        });
+
+        console.log('calling update with', {
+          owner,
+          repo,
+          pull_number: prId,
+          body
         });
 
         await octokit.pulls.update({
@@ -89,7 +98,9 @@ const badgeTemplate = _.template(
         repo,
         ref: undefined
       });
-      const prRefs = refs.data.filter((ref) => ref.object.sha === commitRef && ref.ref.startsWith('refs/pull/'));
+      const prRefs = refs.data
+        .filter((ref) => ref.object.sha === commitRef && ref.ref.startsWith('refs/pull/'))
+        .map((prRef) => prRef.ref);
 
       return {
         envUrl,
