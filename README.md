@@ -6,7 +6,7 @@
   </h2>
 </p>
 <p align="center">
-  <a href="#contributors-"><img src="https://img.shields.io/badge/github_action-v1.7-orange.svg?style=for-the-badge&logo=github&color=CB3837" alt="All Contributors"></a>
+  <a href="#contributors-"><img src="https://img.shields.io/badge/github_action-v2-orange.svg?style=for-the-badge&logo=github&color=CB3837" alt="All Contributors"></a>
 </p>
 <p align="center">
  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -18,7 +18,15 @@
 </p>
 <hr>
 
-When an Environment is deployed successfully, add a badge to PR body with links to environment
+When an Environment is deployed successfully, add a badge to PR body with links to the environment
+
+<img src="./screenshot.jpg" width="550" alt="screenshot" />
+
+---
+
+Uses [shields.io](https://shields.io/) to generate shields. Check out their documentation for color support and more.
+
+Use [simple-icons](https://simpleicons.org/) for logo names. Logos are referenced using names as they appear on the simple-icons site. If the name includes spaces, replace them with dashes (e.g: `visual-studio-code`)
 
 ## Inputs
 
@@ -53,7 +61,7 @@ After adding the PR badge, the action outputs the time it finished
 
 ## Example usage
 ```yaml
-name: Add PR Deploy Badge
+name: Add PR Deploy Badges
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on: [deployment_status]
 
@@ -61,27 +69,25 @@ jobs:
   badge:
     runs-on: ubuntu-latest
     permissions:
-      # needed to change body of PR
       pull-requests: write
     # only runs this job on successful deploy
     if: github.event.deployment_status.state == 'success'
     steps:
-    - name: kb-badger
-      uses: kibibit/kb-badger-action@v1.7
+    - name: TEST KB-BADGER-ACTION
+      uses: kibibit/kb-badger-action@v1.91
       with:
+        style: for-the-badge
         github-token: ${{secrets.GITHUB_TOKEN}}
         badge-left: demo
         badge-right: application
         badge-logo: heroku
+        badge-path: api
         badge2-left: demo
-        badge2-right: api--docs
+        badge2-right: api-docs
         badge2-color: 85EA2D
         badge2-logo: swagger
-        badge2-path: /api/docs
+        badge2-path: api/docs
 ```
-
-## Screenshots
-![screenshot](./screenshot.jpg)
 
 ## Contributors ✨
 
